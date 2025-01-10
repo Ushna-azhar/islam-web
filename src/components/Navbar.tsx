@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from 'next/image'; // Importing Next.js Image component
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,7 +18,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
         {/* Logo Section */}
         <Link href="/">
-          <img src="/logoo.png" alt="Islamic Web Logo" className="h-20 w-auto cursor-pointer" />
+          <Image
+            src="/logoo.png"
+            alt="Islamic Web Logo"
+            className="h-20 w-auto cursor-pointer"
+            width={100} // Specify the width
+            height={80} // Specify the height
+          />
         </Link>
 
         {/* Desktop Menu */}
