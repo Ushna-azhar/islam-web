@@ -2,10 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// Define the shape of prayer times object
+type PrayerTimes = {
+  Fajr: string;
+  Sunrise: string;
+  Dhuhr: string;
+  Asr: string;
+  Maghrib: string;
+  Isha: string;
+};
+
 const PrayerTime = () => {
   const [city, setCity] = useState('Karachi');
   const [country] = useState('Pakistan');
-  const [prayerTimes, setPrayerTimes] = useState<any>(null);
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimes | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -15,9 +25,10 @@ const PrayerTime = () => {
           `http://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
         );
         setPrayerTimes(response.data.data.timings);
-        setError(null); // Reset the error state if the request is successful
-      } catch (error) {
-        setError('Failed to fetch prayer times');
+        setError(null); // Reset error if successful
+      } catch (err) {
+        console.error('Error fetching prayer times:', err);
+        setError('Failed to fetch prayer times. Please try again.');
       }
     };
 
@@ -28,14 +39,14 @@ const PrayerTime = () => {
     setCity(event.target.value);
   };
 
-  // Display error if there is one
-  if (error) return <p className="text-red-500 text-center font-semibold text-lg">{error}</p>;
-
-  if (!prayerTimes) return (
-    <div className="flex justify-center items-center mt-10">
-      <div className="animate-spin rounded-full h-24 w-24 border-b-4 border-teal-500"></div>
-    </div>
-  );
+  // Loading state
+  if (!prayerTimes && !error) {
+    return (
+      <div className="flex justify-center items-center mt-10">
+        <div className="animate-spin rounded-full h-24 w-24 border-b-4 border-teal-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-r from-teal-200 via-teal-100 to-teal-200 text-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-xl max-w-full sm:max-w-lg mx-auto mt-12 transform transition duration-500 hover:scale-105 z-10">
@@ -58,22 +69,28 @@ const PrayerTime = () => {
           <option value="Quetta">Quetta</option>
           <option value="Peshawar">Peshawar</option>
           <option value="Rawalpindi">Rawalpindi</option>
-          {/* Add more cities here */}
         </select>
       </div>
 
+      {/* Error Display */}
+      {error && (
+        <p className="text-red-500 text-center font-semibold text-lg">{error}</p>
+      )}
+
       {/* Prayer times display */}
-      <div className="space-y-4 sm:space-y-6">
-        {Object.entries(prayerTimes).map(([prayer, time]) => (
-          <div
-            key={prayer}
-            className="flex justify-between py-3 sm:py-4 px-4 sm:px-6 bg-teal-700 rounded-xl shadow-lg hover:bg-teal-800 transition duration-300 ease-in-out transform hover:scale-105 mb-3 sm:mb-4"
-          >
-            <span className="text-sm sm:text-lg md:text-xl font-semibold">{prayer}</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-bold">{time}</span>
-          </div>
-        ))}
-      </div>
+      {prayerTimes && (
+        <div className="space-y-4 sm:space-y-6">
+          {Object.entries(prayerTimes).map(([prayer, time]) => (
+            <div
+              key={prayer}
+              className="flex justify-between py-3 sm:py-4 px-4 sm:px-6 bg-teal-700 rounded-xl shadow-lg hover:bg-teal-800 transition duration-300 ease-in-out transform hover:scale-105 mb-3 sm:mb-4"
+            >
+              <span className="text-sm sm:text-lg md:text-xl font-semibold">{prayer}</span>
+              <span className="text-lg sm:text-xl md:text-2xl font-bold">{time}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
