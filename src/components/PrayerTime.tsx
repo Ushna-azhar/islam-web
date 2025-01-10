@@ -27,30 +27,36 @@ const PrayerTime = () => {
     const fetchPrayerTimes = async () => {
       try {
         const response = await axios.get<PrayerApiResponse>(
-          `http://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
+          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
         );
         setPrayerTimes(response.data.data.timings);
         setError(null); // Reset the error state if the request is successful
       } catch (error) {
         setError('Failed to fetch prayer times');
+        console.error(error); // Log the error for debugging
       }
     };
 
     fetchPrayerTimes();
-  }, [city, country]);
+  }, [city, country]); // Dependency array includes city and country
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCity(event.target.value);
+    setCity(event.target.value); // Change the selected city
   };
 
   // Display error if there is one
-  if (error) return <p className="text-red-500 text-center font-semibold text-lg">{error}</p>;
+  if (error) {
+    return <p className="text-red-500 text-center font-semibold text-lg">{error}</p>;
+  }
 
-  if (!prayerTimes) return (
-    <div className="flex justify-center items-center mt-10">
-      <div className="animate-spin rounded-full h-24 w-24 border-b-4 border-teal-500"></div>
-    </div>
-  );
+  // Show loading spinner while prayer times are being fetched
+  if (!prayerTimes) {
+    return (
+      <div className="flex justify-center items-center mt-10">
+        <div className="animate-spin rounded-full h-24 w-24 border-b-4 border-teal-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-r from-teal-200 via-teal-100 to-teal-200 text-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-xl max-w-full sm:max-w-lg mx-auto mt-12 transform transition duration-500 hover:scale-105 z-10">
@@ -60,7 +66,9 @@ const PrayerTime = () => {
 
       {/* City selection dropdown */}
       <div className="flex justify-center mb-6 sm:mb-8 items-center space-x-4">
-        <label htmlFor="city" className="text-teal-800 text-base sm:text-lg font-semibold text-shadow-md">Select City:</label>
+        <label htmlFor="city" className="text-teal-800 text-base sm:text-lg font-semibold text-shadow-md">
+          Select City:
+        </label>
         <select
           id="city"
           className="p-3 sm:p-4 rounded-full bg-teal-600 text-sm sm:text-lg font-medium focus:outline-none focus:ring-4 focus:ring-green-800 transition ease-in-out"
