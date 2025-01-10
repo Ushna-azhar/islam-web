@@ -1,15 +1,18 @@
 'use client';
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from 'next/image'; // Importing Next.js Image component
+import Image from 'next/image';
+
+// Define a type for the dropdown categories
+type DropdownCategory = 'about' | 'quran' | null;
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(null);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [dropdown, setDropdown] = useState<DropdownCategory>(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  const handleDropdown = (category) => {
+  const handleDropdown = (category: DropdownCategory) => {
     setDropdown(dropdown === category ? null : category);
   };
 
@@ -22,8 +25,8 @@ export default function Navbar() {
             src="/logoo.png"
             alt="Islamic Web Logo"
             className="h-20 w-auto cursor-pointer"
-            width={100} // Specify the width
-            height={80} // Specify the height
+            width={100}
+            height={80}
           />
         </Link>
 
@@ -33,47 +36,35 @@ export default function Navbar() {
           <Link href="/prayertime" className="hover:text-gray-300 cursor-pointer">Prayer Times</Link>
 
           {/* About Islam Section */}
-          <div className="relative group">
+          <div className="relative">
             <button
-              onClick={() => handleDropdown("about")}
+              onClick={() => handleDropdown('about')}
               className="hover:text-gray-300 cursor-pointer"
             >
               About Islam
             </button>
-            {dropdown === "about" && (
-              <div className="absolute bg-teal-700 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48 z-50">
-                <Link href="/about/introduction">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Introduction</span>
-                </Link>
-                <Link href="/about/fivepillars">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Five Pillars</span>
-                </Link>
-                <Link href="/about/corebelief">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Core Beliefs</span>
-                </Link>
+            {dropdown === 'about' && (
+              <div className="absolute bg-teal-700 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48">
+                <Link href="/about/introduction" className="block hover:text-gray-300 py-2">Introduction</Link>
+                <Link href="/about/fivepillars" className="block hover:text-gray-300 py-2">Five Pillars</Link>
+                <Link href="/about/corebelief" className="block hover:text-gray-300 py-2">Core Beliefs</Link>
               </div>
             )}
           </div>
 
           {/* Quran Section */}
-          <div className="relative group">
+          <div className="relative">
             <button
-              onClick={() => handleDropdown("quran")}
+              onClick={() => handleDropdown('quran')}
               className="hover:text-gray-300 cursor-pointer"
             >
               Quran
             </button>
-            {dropdown === "quran" && (
-              <div className="absolute bg-teal-700 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48 z-50">
-                <Link href="/quran/surahs">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Surahs</span>
-                </Link>
-                <Link href="/quran/detail">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">About Quran</span>
-                </Link>
-                <Link href="/quran/huqooq">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Rights In Islam</span>
-                </Link>
+            {dropdown === 'quran' && (
+              <div className="absolute bg-teal-700 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48">
+                <Link href="/quran/surahs" className="block hover:text-gray-300 py-2">Surahs</Link>
+                <Link href="/quran/detail" className="block hover:text-gray-300 py-2">About Quran</Link>
+                <Link href="/quran/huqooq" className="block hover:text-gray-300 py-2">Rights in Islam</Link>
               </div>
             )}
           </div>
@@ -83,24 +74,9 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="text-white focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            <svg
-              className="h-8 w-8"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
+          <button onClick={toggleMenu} className="text-white focus:outline-none" aria-label="Toggle menu">
+            <svg className="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
             </svg>
           </button>
         </div>
@@ -111,53 +87,6 @@ export default function Navbar() {
         <div className="md:hidden flex flex-col items-center bg-teal-700 p-4 space-y-4">
           <Link href="/" className="hover:text-gray-300 cursor-pointer">Home</Link>
           <Link href="/prayertime" className="hover:text-gray-300 cursor-pointer">Prayer Times</Link>
-
-          {/* About Islam Section */}
-          <div className="relative">
-            <button
-              onClick={() => handleDropdown("about")}
-              className="hover:text-gray-300 cursor-pointer"
-            >
-              About Islam
-            </button>
-            {dropdown === "about" && (
-              <div className="absolute bg-teal-600 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48 z-50">
-                <Link href="/about/introduction">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Introduction</span>
-                </Link>
-                <Link href="/about/fivepillars">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Five Pillars</span>
-                </Link>
-                <Link href="/about/corebelief">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Core Beliefs</span>
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Quran Section */}
-          <div className="relative">
-            <button
-              onClick={() => handleDropdown("quran")}
-              className="hover:text-gray-300 cursor-pointer"
-            >
-              Quran
-            </button>
-            {dropdown === "quran" && (
-              <div className="absolute bg-teal-600 p-4 rounded-lg shadow-lg top-10 left-0 space-y-4 w-48 z-50">
-                <Link href="/quran/surahs">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Surahs</span>
-                </Link>
-                <Link href="/quran/detail">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">About Quran</span>
-                </Link>
-                <Link href="/quran/huqooq">
-                  <span className="block hover:text-gray-300 cursor-pointer py-2 px-4 rounded hover:bg-teal-600">Rights In Islam</span>
-                </Link>
-              </div>
-            )}
-          </div>
-
           <Link href="/contact" className="hover:text-gray-300 cursor-pointer">Contact</Link>
         </div>
       )}
