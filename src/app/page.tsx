@@ -5,28 +5,18 @@ import QuoteCarousel from '@/components/QuoteCarousel';
 import Link from 'next/link';
 
 export default function Home() {
-  const videos = ['/makkahh.mp4', '/medina.mp4', '/view.mp4'];
   const quotes = [
-    'The best among you are those who have the best manners and character. – Prophet Muhammad (PBUH)',
-    'Whoever shows you a good example, follow it. – Prophet Muhammad (PBUH)',
-    'The strong one is not the one who can overpower others, but the one who controls himself when angry. – Prophet Muhammad (PBUH)',
+    { id: 1, text: 'The best among you are those who have the best manners and character. – Prophet Muhammad (PBUH)', author: 'Prophet Muhammad (PBUH)' },
+    { id: 2, text: 'Whoever shows you a good example, follow it. – Prophet Muhammad (PBUH)', author: 'Prophet Muhammad (PBUH)' },
+    { id: 3, text: 'The strong one is not the one who can overpower others, but the one who controls himself when angry. – Prophet Muhammad (PBUH)', author: 'Prophet Muhammad (PBUH)' },
   ];
-
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-
-  useEffect(() => {
-    const videoInterval = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
-    }, 5000);
-    return () => clearInterval(videoInterval);
-  }, [videos.length]); // Fixed missing dependency
 
   return (
     <div className="relative overflow-hidden min-h-screen bg-gradient-to-t from-teal-700 to-teal-900">
       {/* Video Section */}
       <div className="relative w-full h-screen">
         <video
-          src={videos[currentVideoIndex]}
+          src='/makkahh.mp4'
           autoPlay
           loop
           muted
