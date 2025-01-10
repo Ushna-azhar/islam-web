@@ -49,7 +49,7 @@ export default function SurahDetailPage() {
           `https://api.quran.com/api/v4/quran/translations/131?chapter_number=${id}`
         );
 
-        setSurah(surahResponse.data.chapter);
+        setSurah(surahResponse.data.chapter ?? null);
 
         const combinedAyahs: Ayah[] = ayahResponse.data.verses.map((ayah: AyahApiResponse, index: number) => ({
           id: ayah.id,
@@ -81,23 +81,33 @@ export default function SurahDetailPage() {
   return (
     <div className="bg-gradient-to-r from-teal-200 to-teal-300 text-green-900 py-16 px-8 font-poppins">
       <div className="max-w-7xl mx-auto text-center">
-        {/* Surah Title */}
-        <h1 className="text-5xl font-extrabold text-teal-800 mb-4">{surah.name_arabic}</h1>
-        <p className="text-lg font-semibold mb-8">{surah.translated_name.name}</p>
+        {/* Surah Title (Conditional Rendering Applied) */}
+        {surah ? (
+          <>
+            <h1 className="text-5xl font-extrabold text-teal-800 mb-4">{surah.name_arabic}</h1>
+            <p className="text-lg font-semibold mb-8">{surah.translated_name.name}</p>
+          </>
+        ) : (
+          <p className="text-red-600 text-2xl font-bold">Surah not found</p>
+        )}
 
         {/* Audio Section */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-semibold text-teal-700 mb-4">Listen to {surah.name_simple}</h2>
-          <audio controls className="w-full max-w-xl mx-auto">
-            <source
-              src={`https://download.quranicaudio.com/qdc/abdul_baset/mujawwad/${id}.mp3`}
-              type="audio/mp3"
-            />
-            Your browser does not support the audio element.
-          </audio>
-        </div>
+        {surah && (
+          <div className="mb-12">
+            <h2 className="text-3xl font-semibold text-teal-700 mb-4">
+              Listen to {surah.name_simple}
+            </h2>
+            <audio controls className="w-full max-w-xl mx-auto">
+              <source
+                src={`https://download.quranicaudio.com/qdc/abdul_baset/mujawwad/${id}.mp3`}
+                type="audio/mp3"
+              />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        )}
 
-        {/* Ayahs Section with Arabic and Translation */}
+        {/* Ayahs Section */}
         <div className="space-y-8 mt-12">
           {ayahs.map((ayah, index) => (
             <div key={ayah.id} className="bg-teal-50 p-6 rounded-xl shadow-lg text-right">
