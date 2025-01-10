@@ -1,22 +1,31 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-const QuoteCarousel = ({ quotes }) => {
+interface Quote {
+  id: number;
+  text: string;
+  author: string;
+}
+
+interface QuoteCarouselProps {
+  quotes: Quote[];
+}
+
+const QuoteCarousel: React.FC<QuoteCarouselProps> = ({ quotes }) => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
 
   useEffect(() => {
-    const quoteInterval = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-    }, 5000); // Change quote every 5 seconds
+    }, 3000);
 
-    return () => {
-      clearInterval(quoteInterval);
-    };
+    return () => clearInterval(interval);
   }, [quotes]);
 
   return (
-    <div className="bg-teal-600 p-6 rounded-xl shadow-lg text-lg italic">
-      <p>{quotes[currentQuoteIndex]}</p>
+    <div>
+      <p>{quotes[currentQuoteIndex].text}</p>
+      <small>- {quotes[currentQuoteIndex].author}</small>
     </div>
   );
 };
