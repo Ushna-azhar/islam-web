@@ -27,7 +27,6 @@ export default function Home() {
       <div className="relative w-full h-screen">
         <video
           src={videos[currentVideoIndex]}
-          type="video/mp4"
           autoPlay
           loop
           muted
@@ -73,7 +72,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="bg-white text-teal-800 p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-500 ease-in-out">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4">Prophet Muhammad&apos;s (PBUH) Life</h3> {/* Fixed escaping issue */}
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4">Prophet Muhammad&apos;s (PBUH) Life</h3>
               <p className="text-base sm:text-lg mb-4">Explore the life and teachings of the Prophet Muhammad (PBUH) through key events and lessons.</p>
               <Link href="/about/life" className="text-teal-600 hover:text-teal-800 font-semibold">
                 Read More
