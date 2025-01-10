@@ -11,6 +11,12 @@ interface PrayerTimes {
   // Add other prayer names if needed
 }
 
+interface PrayerApiResponse {
+  data: {
+    timings: PrayerTimes;
+  };
+}
+
 const PrayerTime = () => {
   const [city, setCity] = useState('Karachi');
   const [country] = useState('Pakistan');
@@ -20,7 +26,7 @@ const PrayerTime = () => {
   useEffect(() => {
     const fetchPrayerTimes = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<PrayerApiResponse>(
           `http://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
         );
         setPrayerTimes(response.data.data.timings);
