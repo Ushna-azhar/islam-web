@@ -87,6 +87,41 @@ export default function Navbar() {
         <div className="md:hidden flex flex-col items-center bg-teal-700 p-4 space-y-4">
           <Link href="/" className="hover:text-gray-300 cursor-pointer">Home</Link>
           <Link href="/prayertime" className="hover:text-gray-300 cursor-pointer">Prayer Times</Link>
+
+          {/* About Islam Section */}
+          <div className="relative">
+            <button
+              onClick={() => handleDropdown('about')}
+              className="hover:text-gray-300 cursor-pointer"
+            >
+              About Islam
+            </button>
+            {dropdown === 'about' && (
+              <div className="space-y-4 mt-2">
+                <Link href="/about/introduction" className="block hover:text-gray-300 py-2">Introduction</Link>
+                <Link href="/about/fivepillars" className="block hover:text-gray-300 py-2">Five Pillars</Link>
+                <Link href="/about/corebelief" className="block hover:text-gray-300 py-2">Core Beliefs</Link>
+              </div>
+            )}
+          </div>
+
+          {/* Quran Section */}
+          <div className="relative">
+            <button
+              onClick={() => handleDropdown('quran')}
+              className="hover:text-gray-300 cursor-pointer"
+            >
+              Quran
+            </button>
+            {dropdown === 'quran' && (
+              <div className="space-y-4 mt-2">
+                <Link href="/quran/surahs" className="block hover:text-gray-300 py-2">Surahs</Link>
+                <Link href="/quran/detail" className="block hover:text-gray-300 py-2">About Quran</Link>
+                <Link href="/quran/huqooq" className="block hover:text-gray-300 py-2">Rights in Islam</Link>
+              </div>
+            )}
+          </div>
+
           <Link href="/contact" className="hover:text-gray-300 cursor-pointer">Contact</Link>
         </div>
       )}
