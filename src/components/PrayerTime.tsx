@@ -2,10 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+interface PrayerTimes {
+  fajr: string;
+  dhuhr: string;
+  asr: string;
+  maghrib: string;
+  isha: string;
+  // Add other prayer names if needed
+}
+
 const PrayerTime = () => {
   const [city, setCity] = useState('Karachi');
   const [country] = useState('Pakistan');
-  const [prayerTimes, setPrayerTimes] = useState<any>(null);
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimes | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
